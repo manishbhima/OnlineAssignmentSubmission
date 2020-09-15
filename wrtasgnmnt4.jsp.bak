@@ -1,0 +1,28 @@
+<%@page import="java.io.*,java.sql.*,databaseconnection.*"%>
+<%try{
+		String sno=request.getParameter("sno");
+		String qtn=request.getParameter("qtn");
+		String ans=request.getParameter("ans");
+		
+		
+		
+				Connection con=databasecon.getconnection();
+				Statement st=con.createStatement();
+				
+				PreparedStatement p=con.prepareStatement("insert into answers(sno,qtn,ans,rno,marks) values(?,?,?,?,?)");
+				p.setString(1,sno);
+				p.setString(2,qtn);
+				p.setString(3,ans);
+				p.setString(4,session.getAttribute("rno").toString());
+				p.setString(5,0);
+				int i=p.executeUpdate();
+				
+				if(i>0){
+					
+			response.sendRedirect("wrtasgnmnt2.jsp?msg=answerd&sno="+sno+"");		
+				}
+				
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+%>
